@@ -609,7 +609,9 @@ function localReportStatus(client,loc,ym){
   if(!plants.length)return null;
   var a=ym.split('-'),y=Number(a[0]),m=Number(a[1]);
   var totalDays=new Date(y,m,0).getDate(),missing=[],checked=0,required=0;
-  for(var day=1;day<=totalDays;day++){
+  var currentMonth=today().slice(0,7);
+  var eligibleDays=ym>currentMonth?0:(ym===currentMonth?Math.min(totalDays,Number(today().slice(8,10))):totalDays);
+  for(var day=1;day<=eligibleDays;day++){
     var ds=y+'-'+String(m).padStart(2,'0')+'-'+String(day).padStart(2,'0');
     var obligations=plants.filter(function(p){return requiredMonitoringDay(p,ds);});
     if(!obligations.length)continue;
